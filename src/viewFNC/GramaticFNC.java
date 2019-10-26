@@ -13,8 +13,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.sun.xml.internal.messaging.saaj.soap.JpegDataContentHandler;
-
 import controllerFNC.ControllerFNC;
 /**
  * program that generates a grammar equivalent to fnc equivalent to a grammar g
@@ -27,6 +25,7 @@ public class GramaticFNC extends JFrame implements ActionListener {
 	 * relations
 	 */
 	private ControllerFNC controller;
+	private GramaticOutFNC gramaticOut;
 	/**
 	 * attributes
 	 */
@@ -65,15 +64,9 @@ public class GramaticFNC extends JFrame implements ActionListener {
 		JButton buttonAccept = new JButton("aceptar");
 		buttonAccept.setActionCommand("ACCEPT");
 		buttonAccept.addActionListener(this);
-		JButton buttonReboot = new JButton("Reiniciar");
-		buttonReboot.setActionCommand("REBOOT");
-		buttonReboot.addActionListener(this);
-		JPanel panelButtons = new JPanel(new GridLayout(1,2));
-		panelButtons.add(buttonAccept);
-		panelButtons.add(buttonReboot);
 		aux.add(labMessage, BorderLayout.NORTH);
 		aux.add(panelProductions, BorderLayout.CENTER);
-		aux.add(panelButtons, BorderLayout.SOUTH);
+		aux.add(buttonAccept, BorderLayout.SOUTH);
 	}
 	/**
 	 * take the data of the grammar
@@ -83,12 +76,22 @@ public class GramaticFNC extends JFrame implements ActionListener {
 		ArrayList data = new ArrayList();
 		for (int i = 0; i < productions.length; i++) {
 			ArrayList dataAux = new ArrayList();
-			for (int j = 0; j < 2; j++) {
-				dataAux.add(productions[i][j]);
+			dataAux.add(productions[i][0].getText());
+			ArrayList productionsAux = new ArrayList();
+			String[] aux = productions[i][1].getText().split(",");
+			for (int j = 0; j < aux.length; j++) {
+				productionsAux.add(aux[j]);
 			}
+			dataAux.add(productionsAux);
 			data.add(dataAux);
 		}
 		return data;
+	}
+	
+	private void showData() {
+		gramaticOut = new GramaticOutFNC(this, controller.fnc());
+		gramaticOut.setLocationRelativeTo(this);
+		gramaticOut.setVisible(true);
 	}
 	/**
 	 * reboot the program
@@ -104,8 +107,7 @@ public class GramaticFNC extends JFrame implements ActionListener {
 		String command = e.getActionCommand();
 		if(command.equals("ACCEPT")) {
 			controller.accept(takeData());
-		} else {
-			controller.reboot();
+			showData();
 		}
 	}
 	/**

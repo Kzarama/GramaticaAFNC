@@ -14,13 +14,13 @@ public class ControllerFNC {
 	/**
 	 * relations
 	 */
-	GramaticFNC view;
-	ModelFNC model;
+	private GramaticFNC view;
+	private ModelFNC model;
 	/**
 	 * constructor of the method
 	 */
 	public ControllerFNC() {
-		view = new GramaticFNC();
+		
 	}
 	/**
 	 * button accept
@@ -33,7 +33,10 @@ public class ControllerFNC {
 	 * button reboot
 	 */
 	public void reboot() {
+		view = new GramaticFNC();
 		view.reboot();
 	}
-
+	public ArrayList fnc() {
+		return model.fnc();
+	}
 }
