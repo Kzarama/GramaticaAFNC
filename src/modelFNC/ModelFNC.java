@@ -63,7 +63,7 @@ public class ModelFNC {
 		return copy;
 	}
 	/**
-	 * 
+	 * say if two grammars are equals
 	 * @return
 	 */
 	private boolean areGrammarEquals(ArrayList grammar1, ArrayList grammar2) {
@@ -84,12 +84,13 @@ public class ModelFNC {
 		return equals;
 	}
 	/**
-	 * 
+	 * remove variables non terminals
 	 */
 	public void terminals() {
 		ArrayList productionsNonTerminals = new ArrayList();
 		ArrayList productionsTerminals = new ArrayList();
 		ArrayList iDK = new ArrayList();
+		//terminals 1
 		for (int i = 0; i < gramatic.size(); i++) {
 			boolean terminal = false;
 			for (int j = 0; j < ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).size(); j++) {
@@ -104,8 +105,7 @@ public class ModelFNC {
 				iDK.add(gramatic.get(i));
 			}
 		}
-		
-		
+		//terminals 2-n
 		boolean equals = true;
 		while (equals) {
 			ArrayList aux = makeACopy(productionsTerminals);
@@ -128,8 +128,7 @@ public class ModelFNC {
 			}
 			equals = !areGrammarEquals(aux, productionsTerminals);
 		}
-		
-		
+		//remove variables non terminals
 		for (int i = 0; i < gramatic.size(); i++) {
 			for (int j = 0; j < iDK.size(); j++) {
 				if (((ArrayList) gramatic.get(i)).get(0).equals(((ArrayList) iDK.get(j)).get(0))) {
@@ -139,6 +138,7 @@ public class ModelFNC {
 				}
 			}
 		}
+		//remove productions with non terminals
 		for (int i = 0; i < gramatic.size(); i++) {
 			for (int j = 0; j < ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).size(); j++) {
 				String production = (String) ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j);
@@ -150,9 +150,6 @@ public class ModelFNC {
 				}
 			}
 		}
-		System.out.println("nt"+productionsNonTerminals);
-		System.out.println("t"+productionsTerminals);
-		System.out.println("idk"+iDK);
 	}
 	
 	public void attainable() {
@@ -174,12 +171,5 @@ public class ModelFNC {
 	public void binary() {
 		
 	}
-	
-//	private void haveTerminals(ArrayList prove) {
-//		boolean haveTerminals = false;
-//		for (int i = 0; i < prove.size(); i++) {
-//			if()
-//		}
-//	}
 	
 }
