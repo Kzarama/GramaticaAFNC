@@ -34,6 +34,7 @@ public class GramaticOutFNC extends JDialog {
 			grammar += "\n";
 		}
 		labelGramatic = new JTextArea(grammar);
+		labelGramatic.setEditable(false);
 	}
 	
 }

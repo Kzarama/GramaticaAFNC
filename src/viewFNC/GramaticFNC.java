@@ -88,8 +88,8 @@ public class GramaticFNC extends JFrame implements ActionListener {
 		return data;
 	}
 	
-	private void showData() {
-		gramaticOut = new GramaticOutFNC(this, controller.fnc());
+	private void showData(ArrayList grammar) {
+		gramaticOut = new GramaticOutFNC(this, grammar);
 		gramaticOut.setLocationRelativeTo(this);
 		gramaticOut.setVisible(true);
 	}
@@ -106,8 +106,7 @@ public class GramaticFNC extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
 		if(command.equals("ACCEPT")) {
-			controller.accept(takeData());
-			showData();
+			showData(controller.accept(takeData()));
 		}
 	}
 	/**

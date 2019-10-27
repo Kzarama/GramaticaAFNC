@@ -40,36 +40,121 @@ public class ModelFNC {
 			}
 		}
 	}
+	/**
+	 * make a copy of the a grammar
+	 * @return
+	 */
+	private ArrayList makeACopy(ArrayList grammarToCopy) {
+		ArrayList copy = new ArrayList();
+		for (int i = 0; i < grammarToCopy.size(); i++) {
+			ArrayList aux1 = new ArrayList();
+			for (int j = 0; j < 1; j++) {
+				String auxP = (String) ((ArrayList) grammarToCopy.get(i)).get(0);
+				aux1.add(auxP);
+				ArrayList copyProductions = new ArrayList();
+				for (int k = 0; k < ((ArrayList) ((ArrayList) grammarToCopy.get(i)).get(1)).size(); k++) {
+					String productions = (String) ((ArrayList) ((ArrayList) grammarToCopy.get(i)).get(1)).get(k);
+					copyProductions.add(productions);
+				}
+				aux1.add(copyProductions);
+			}
+			copy.add(aux1);
+		}
+		return copy;
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	private boolean areGrammarEquals(ArrayList grammar1, ArrayList grammar2) {
+		boolean equals = true;
+		if (grammar1.size() != grammar2.size()) {
+			return false;
+		}
+		for (int i = 0; i < grammar1.size(); i++) {
+			if (!((String) ((ArrayList) grammar1.get(i)).get(0)).equals((String) ((ArrayList) grammar2.get(i)).get(0))) {
+				equals = false;
+			}
+			for (int j = 0; j < ((ArrayList) ((ArrayList) grammar1.get(i)).get(1)).size(); j++) {
+				if (!((String) ((ArrayList) ((ArrayList) grammar1.get(i)).get(1)).get(j)).equals((String) ((ArrayList) ((ArrayList) grammar2.get(i)).get(1)).get(j))) {
+					equals = false;
+				}
+			}
+		}
+		return equals;
+	}
+	/**
+	 * 
+	 */
 	public void terminals() {
 		ArrayList productionsNonTerminals = new ArrayList();
+		ArrayList productionsTerminals = new ArrayList();
+		ArrayList iDK = new ArrayList();
 		for (int i = 0; i < gramatic.size(); i++) {
 			boolean terminal = false;
 			for (int j = 0; j < ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).size(); j++) {
-				String production = (String) ( (ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j);
+				String production = (String) ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j);
 				if(production.equals(production.toLowerCase())) {
+					productionsTerminals.add(gramatic.get(i));
 					terminal = true;
 					break;
 				}
 			}
 			if (!terminal) {
-				productionsNonTerminals.add(gramatic.remove(i));
-				i = -1;
+				iDK.add(gramatic.get(i));
 			}
 		}
-		System.out.println(productionsNonTerminals);
+		
+		
+		boolean equals = true;
+		while (equals) {
+			ArrayList aux = makeACopy(productionsTerminals);
+			for (int i = 0; i < iDK.size(); i++) {
+				 boolean terminal = false;
+				 for (int j = 0; j < ((ArrayList) ((ArrayList) iDK.get(i)).get(1)).size(); j++) {
+					 String production = (String) ((ArrayList) ((ArrayList) iDK.get(i)).get(1)).get(j);
+					 for (int k = 0; k < production.length(); k++) {
+						for (int l = 0; l < productionsTerminals.size(); l++) {
+							if (production.charAt(k) == ((String) ((ArrayList) productionsTerminals.get(l)).get(0)).charAt(0)) {
+								terminal = true;
+							}
+						}
+					}
+				}
+				if (terminal) {
+					productionsTerminals.add(iDK.remove(i));
+					i = -1;
+				}
+			}
+			equals = !areGrammarEquals(aux, productionsTerminals);
+		}
+		
+		
+		for (int i = 0; i < gramatic.size(); i++) {
+			for (int j = 0; j < iDK.size(); j++) {
+				if (((ArrayList) gramatic.get(i)).get(0).equals(((ArrayList) iDK.get(j)).get(0))) {
+					gramatic.remove(i);
+					i = -1;
+					break;
+				}
+			}
+		}
 		for (int i = 0; i < gramatic.size(); i++) {
 			for (int j = 0; j < ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).size(); j++) {
-				String production = (String) ( (ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j);
-				for (int k = 0; k < productionsNonTerminals.size(); k++) {
-					if (production.contains((CharSequence) ((ArrayList) productionsNonTerminals.get(k)).get(0))) {
+				String production = (String) ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j);
+				for (int k = 0; k < iDK.size(); k++) {
+					if (production.contains((CharSequence) ((ArrayList) iDK.get(k)).get(0))) {
 						((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).remove(j);
 						j = -1;
 					}
 				}
 			}
 		}
-		
+		System.out.println("nt"+productionsNonTerminals);
+		System.out.println("t"+productionsTerminals);
+		System.out.println("idk"+iDK);
 	}
+	
 	public void attainable() {
 		
 	}

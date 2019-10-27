@@ -26,8 +26,9 @@ public class ControllerFNC {
 	 * button accept
 	 * @param data
 	 */
-	public void accept(ArrayList data) {
+	public ArrayList accept(ArrayList data) {
 		model = new ModelFNC(data);
+		return model.fnc();
 	}
 	/**
 	 * button reboot
@@ -35,8 +36,5 @@ public class ControllerFNC {
 	public void reboot() {
 		view = new GramaticFNC();
 		view.reboot();
-	}
-	public ArrayList fnc() {
-		return model.fnc();
 	}
 }
