@@ -1,6 +1,9 @@
 package modelFNC;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
 /**
  * model of program
  * @author kz
@@ -22,7 +25,7 @@ public class ModelFNC {
 	public ArrayList fnc() {
 		useless();
 		terminals();
-		attainable();
+		reachable();
 		voidable();
 		unitary();
 		changeTerminals();
@@ -151,9 +154,39 @@ public class ModelFNC {
 			}
 		}
 	}
-	
-	public void attainable() {
-		
+	/**
+	 * remove variables non reachable of the grammar
+	 */
+	public void reachable() {
+		String[] variables = new String[gramatic.size()];
+		for (int i = 0; i < variables.length; i++) {
+			variables[i] = (String) ((ArrayList) gramatic.get(i)).get(0);
+		}
+		Queue queue = new LinkedList();
+		boolean[] isAttainable = new boolean[gramatic.size()];
+		for (int i = 0; i < isAttainable.length; i++) {
+			isAttainable[i] = false;
+		}
+		queue.add(gramatic.get(0));
+		isAttainable[0] = true;
+		while(!queue.isEmpty()) {
+			ArrayList elementQueue = (ArrayList) queue.poll();
+			for (int i = 0; i < ((ArrayList) elementQueue.get(1)).size(); i++) {
+				String production = (String) ((ArrayList) elementQueue.get(1)).get(i);
+				for (int j = 1; j < variables.length; j++) {
+					if (isAttainable[j] != true && production.contains(variables[j])) {
+						isAttainable[j] = true;
+						queue.add(gramatic.get(j));
+					}
+				}
+			}
+		}
+		for (int i = gramatic.size()-1; i > 0; i--) {
+			System.out.println(i);
+			if (isAttainable[i] == false) {
+				gramatic.remove(i);
+			}
+		}
 	}
 	
 	public void voidable() {
