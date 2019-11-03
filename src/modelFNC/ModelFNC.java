@@ -4,24 +4,27 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
+
 /**
  * model of program
- * @author kz
- * 01/10/2019
- * version 1.0
+ * 
+ * @author kz 01/10/2019 version 1.0
  */
 public class ModelFNC {
 	/**
 	 * attributes
 	 */
 	ArrayList gramatic;
+
 	/**
 	 * constructor
+	 * 
 	 * @param data
 	 */
 	public ModelFNC(ArrayList data) {
 		gramatic = data;
 	}
+
 	public ArrayList fnc() {
 		useless();
 		terminals();
@@ -32,19 +35,22 @@ public class ModelFNC {
 		binary();
 		return gramatic;
 	}
+
 	/**
 	 * method that delete useless variables
 	 */
 	public void useless() {
 		for (int i = 0; i < gramatic.size(); i++) {
-			if(((ArrayList) gramatic.get(i)).get(1).equals("")) {
+			if (((ArrayList) gramatic.get(i)).get(1).equals("") || ((ArrayList) gramatic.get(i)).get(0).equals("")) {
 				gramatic.remove(i);
 				i = -1;
 			}
 		}
 	}
+
 	/**
 	 * make a copy of the a grammar
+	 * 
 	 * @return
 	 */
 	private ArrayList makeACopy(ArrayList grammarToCopy) {
@@ -65,8 +71,10 @@ public class ModelFNC {
 		}
 		return copy;
 	}
+
 	/**
 	 * say if two grammars are equals
+	 * 
 	 * @return
 	 */
 	private boolean areGrammarEquals(ArrayList grammar1, ArrayList grammar2) {
@@ -75,17 +83,20 @@ public class ModelFNC {
 			return false;
 		}
 		for (int i = 0; i < grammar1.size(); i++) {
-			if (!((String) ((ArrayList) grammar1.get(i)).get(0)).equals((String) ((ArrayList) grammar2.get(i)).get(0))) {
+			if (!((String) ((ArrayList) grammar1.get(i)).get(0))
+					.equals((String) ((ArrayList) grammar2.get(i)).get(0))) {
 				equals = false;
 			}
 			for (int j = 0; j < ((ArrayList) ((ArrayList) grammar1.get(i)).get(1)).size(); j++) {
-				if (!((String) ((ArrayList) ((ArrayList) grammar1.get(i)).get(1)).get(j)).equals((String) ((ArrayList) ((ArrayList) grammar2.get(i)).get(1)).get(j))) {
+				if (!((String) ((ArrayList) ((ArrayList) grammar1.get(i)).get(1)).get(j))
+						.equals((String) ((ArrayList) ((ArrayList) grammar2.get(i)).get(1)).get(j))) {
 					equals = false;
 				}
 			}
 		}
 		return equals;
 	}
+
 	/**
 	 * remove variables non terminals
 	 */
@@ -93,12 +104,12 @@ public class ModelFNC {
 		ArrayList productionsNonTerminals = new ArrayList();
 		ArrayList productionsTerminals = new ArrayList();
 		ArrayList iDK = new ArrayList();
-		//terminals 1
+		// terminals 1
 		for (int i = 0; i < gramatic.size(); i++) {
 			boolean terminal = false;
 			for (int j = 0; j < ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).size(); j++) {
 				String production = (String) ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j);
-				if(production.equals(production.toLowerCase())) {
+				if (production.equals(production.toLowerCase())) {
 					productionsTerminals.add(gramatic.get(i));
 					terminal = true;
 					break;
@@ -108,17 +119,18 @@ public class ModelFNC {
 				iDK.add(gramatic.get(i));
 			}
 		}
-		//terminals 2-n
+		// terminals 2-n
 		boolean equals = true;
 		while (equals) {
 			ArrayList aux = makeACopy(productionsTerminals);
 			for (int i = 0; i < iDK.size(); i++) {
-				 boolean terminal = false;
-				 for (int j = 0; j < ((ArrayList) ((ArrayList) iDK.get(i)).get(1)).size(); j++) {
-					 String production = (String) ((ArrayList) ((ArrayList) iDK.get(i)).get(1)).get(j);
-					 for (int k = 0; k < production.length(); k++) {
+				boolean terminal = false;
+				for (int j = 0; j < ((ArrayList) ((ArrayList) iDK.get(i)).get(1)).size(); j++) {
+					String production = (String) ((ArrayList) ((ArrayList) iDK.get(i)).get(1)).get(j);
+					for (int k = 0; k < production.length(); k++) {
 						for (int l = 0; l < productionsTerminals.size(); l++) {
-							if (production.charAt(k) == ((String) ((ArrayList) productionsTerminals.get(l)).get(0)).charAt(0)) {
+							if (production.charAt(k) == ((String) ((ArrayList) productionsTerminals.get(l)).get(0))
+									.charAt(0)) {
 								terminal = true;
 							}
 						}
@@ -131,7 +143,7 @@ public class ModelFNC {
 			}
 			equals = !areGrammarEquals(aux, productionsTerminals);
 		}
-		//remove variables non terminals
+		// remove variables non terminals
 		for (int i = 0; i < gramatic.size(); i++) {
 			for (int j = 0; j < iDK.size(); j++) {
 				if (((ArrayList) gramatic.get(i)).get(0).equals(((ArrayList) iDK.get(j)).get(0))) {
@@ -141,7 +153,7 @@ public class ModelFNC {
 				}
 			}
 		}
-		//remove productions with non terminals
+		// remove productions with non terminals
 		for (int i = 0; i < gramatic.size(); i++) {
 			for (int j = 0; j < ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).size(); j++) {
 				String production = (String) ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j);
@@ -154,6 +166,7 @@ public class ModelFNC {
 			}
 		}
 	}
+
 	/**
 	 * remove variables non reachable of the grammar
 	 */
@@ -169,7 +182,7 @@ public class ModelFNC {
 		}
 		queue.add(gramatic.get(0));
 		isAttainable[0] = true;
-		while(!queue.isEmpty()) {
+		while (!queue.isEmpty()) {
 			ArrayList elementQueue = (ArrayList) queue.poll();
 			for (int i = 0; i < ((ArrayList) elementQueue.get(1)).size(); i++) {
 				String production = (String) ((ArrayList) elementQueue.get(1)).get(i);
@@ -181,28 +194,77 @@ public class ModelFNC {
 				}
 			}
 		}
-		for (int i = gramatic.size()-1; i > 0; i--) {
-			System.out.println(i);
+		for (int i = gramatic.size() - 1; i > 0; i--) {
 			if (isAttainable[i] == false) {
 				gramatic.remove(i);
 			}
 		}
 	}
-	
+
 	public void voidable() {
+		// voidable 1
+		ArrayList voidable = new ArrayList();
+		for (int i = 0; i < gramatic.size(); i++) {
+			for (int j = 0; j < ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).size(); j++) {
+				String production = (String) ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j);
+				if (production.equals("_")) {
+					voidable.add(gramatic.get(i));
+					((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).remove(j);
+				}
+			}
+		}
+		// voidable 2-n
+		boolean equals = true;
+		while (equals) {
+			ArrayList aux = makeACopy(voidable);
+			for (int i = 0; i < gramatic.size(); i++) {
+				for (int j = 0; j < ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).size(); j++) {
+					String production = (String) ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j);
+					if (production.length() == 1) {
+						for (int k = 0; k < production.length(); k++) {
+							for (int l = 0; l < voidable.size(); l++) {
+								if ((!voidable.contains(gramatic.get(i))) && production.charAt(k) == ((String) ((ArrayList) voidable.get(l)).get(0)).charAt(0)) {
+									voidable.add(gramatic.get(i));
+								}
+							}
+						}
+					}
+				}
+			}
+			equals = !areGrammarEquals(aux, voidable);
+		}
+		/////////////////////////////////////
+		// change productions
 		
+
 	}
-	
+
 	public void unitary() {
-		
+
 	}
-	
+
 	public void changeTerminals() {
-		
+
+	}
+
+	public void binary() {
+
 	}
 	
-	public void binary() {
-		
-	}
+	//code for unitary
+//	for (int i = 0; i < gramatic.size(); i++) {
+//		for (int j = 0; j < ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).size(); j++) {
+//			String production = (String) ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j);
+//			for (int k = 0; k < production.length(); k++) {
+//				for (int l = 0; l < voidable.size(); l++) {
+//					if (production.charAt(k) == ((String) ((ArrayList) voidable.get(l)).get(0)).charAt(0)) {
+//						for (int n = 0; n < ((ArrayList) ((ArrayList) voidable.get(l)).get(1)).size(); n++) {
+//							((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).add(production.replaceAll("" + production.charAt(k), (String) ((ArrayList) ((ArrayList) voidable.get(l)).get(1)).get(n)));
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
 	
 }

@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import controllerFNC.ControllerFNC;
+import jdk.nashorn.internal.scripts.JO;
 /**
  * program that generates a grammar equivalent to fnc equivalent to a grammar g
  * @author kz
@@ -36,7 +37,16 @@ public class GramaticFNC extends JFrame implements ActionListener {
 	 */
 	public GramaticFNC() {
 		controller = new ControllerFNC();
-		int numProductions  = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese el numero de producciones", "Gramatica a FNC", JOptionPane.INFORMATION_MESSAGE));
+		int numProductions = 0;
+		try {
+			numProductions = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese el numero de producciones", "Gramatica a FNC", JOptionPane.INFORMATION_MESSAGE));
+			if (numProductions == 0) {
+				System.exit(0);
+			}
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "chistoso xdd (ejecutar de nuevo y solo ingresar numeros)");
+			System.exit(0);
+		}
 		createView(numProductions);
 		add(aux);
 		setSize(500, 500);
@@ -60,8 +70,9 @@ public class GramaticFNC extends JFrame implements ActionListener {
 			productions[i][1] = new JTextField();
 			panelProductions.add(productions[i][1]);
 		}
-		JLabel labMessage = new JLabel("Ingrese aqui las producciones");
-		JButton buttonAccept = new JButton("aceptar");
+//		JLabel labMessage = new JLabel("Ingrese aqui las producciones(para lambda ingrese _)");
+		JLabel labMessage = new JLabel("<html><big>Ingrese aqui las producciones</big><br>(para lambda ingrese _)</html>");
+		JButton buttonAccept = new JButton("ACEPTAR");
 		buttonAccept.setActionCommand("ACCEPT");
 		buttonAccept.addActionListener(this);
 		aux.add(labMessage, BorderLayout.NORTH);
