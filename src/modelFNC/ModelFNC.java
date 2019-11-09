@@ -277,7 +277,6 @@ public class ModelFNC {
 	}
 	
 	public void unitary() {
-//		ArrayList unitary = new ArrayList();
 		String[] variables = new String[gramatic.size()];
 		for (int i = 0; i < variables.length; i++) {
 			variables[i] = (String) ((ArrayList) gramatic.get(i)).get(0);
@@ -328,7 +327,7 @@ public class ModelFNC {
 	}
 
 	public void changeTerminals() {
-
+		
 	}
 
 	public void binary() {
