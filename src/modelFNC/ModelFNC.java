@@ -57,16 +57,14 @@ public class ModelFNC {
 		ArrayList copy = new ArrayList();
 		for (int i = 0; i < grammarToCopy.size(); i++) {
 			ArrayList aux1 = new ArrayList();
-			for (int j = 0; j < 1; j++) {
-				String auxP = (String) ((ArrayList) grammarToCopy.get(i)).get(0);
-				aux1.add(auxP);
-				ArrayList copyProductions = new ArrayList();
-				for (int k = 0; k < ((ArrayList) ((ArrayList) grammarToCopy.get(i)).get(1)).size(); k++) {
-					String productions = (String) ((ArrayList) ((ArrayList) grammarToCopy.get(i)).get(1)).get(k);
-					copyProductions.add(productions);
-				}
-				aux1.add(copyProductions);
+			String auxP = (String) ((ArrayList) grammarToCopy.get(i)).get(0);
+			aux1.add(auxP);
+			ArrayList copyProductions = new ArrayList();
+			for (int k = 0; k < ((ArrayList) ((ArrayList) grammarToCopy.get(i)).get(1)).size(); k++) {
+				String productions = (String) ((ArrayList) ((ArrayList) grammarToCopy.get(i)).get(1)).get(k);
+				copyProductions.add(productions);
 			}
+			aux1.add(copyProductions);
 			copy.add(aux1);
 		}
 		return copy;
@@ -85,12 +83,12 @@ public class ModelFNC {
 		for (int i = 0; i < grammar1.size(); i++) {
 			if (!((String) ((ArrayList) grammar1.get(i)).get(0))
 					.equals((String) ((ArrayList) grammar2.get(i)).get(0))) {
-				equals = false;
+				return equals;
 			}
 			for (int j = 0; j < ((ArrayList) ((ArrayList) grammar1.get(i)).get(1)).size(); j++) {
 				if (!((String) ((ArrayList) ((ArrayList) grammar1.get(i)).get(1)).get(j))
 						.equals((String) ((ArrayList) ((ArrayList) grammar2.get(i)).get(1)).get(j))) {
-					equals = false;
+					return equals;
 				}
 			}
 		}
@@ -221,11 +219,9 @@ public class ModelFNC {
 				for (int j = 0; j < ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).size(); j++) {
 					String production = (String) ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j);
 					if (production.length() == 1) {
-						for (int k = 0; k < production.length(); k++) {
-							for (int l = 0; l < voidable.size(); l++) {
-								if ((!voidable.contains(gramatic.get(i))) && production.charAt(k) == ((String) ((ArrayList) voidable.get(l)).get(0)).charAt(0)) {
-									voidable.add(gramatic.get(i));
-								}
+						for (int l = 0; l < voidable.size(); l++) {
+							if ((!voidable.contains(gramatic.get(i))) && production.charAt(0) == ((String) ((ArrayList) voidable.get(l)).get(0)).charAt(0)) {
+								voidable.add(gramatic.get(i));
 							}
 						}
 					}
@@ -239,8 +235,96 @@ public class ModelFNC {
 
 	}
 
+	private ArrayList makeACopy2(ArrayList grammarToCopy) {
+		ArrayList copy = new ArrayList<>();
+		for (int i = 0; i < grammarToCopy.size(); i++) {
+			ArrayList aux1 = new ArrayList();
+			for (int j = 0; j < ((ArrayList) grammarToCopy.get(i)).size(); j++) {
+				ArrayList aux2 = new ArrayList();
+				String auxp = (String) ((ArrayList) ((ArrayList) grammarToCopy.get(i)).get(j)).get(0);
+				aux2.add(auxp);
+				ArrayList copyP = new ArrayList();
+				for (int k = 0; k < ((ArrayList) ((ArrayList) ((ArrayList) grammarToCopy.get(i)).get(j)).get(1)).size(); k++) {
+					String productions = (String) ((ArrayList) ((ArrayList) ((ArrayList) grammarToCopy.get(i)).get(j)).get(1)).get(k);
+					copyP.add(productions);
+				}
+				aux2.add(copyP);
+				aux1.add(aux2);
+			}
+			copy.add(aux1);
+		}
+		return copy;
+	}
+	
+	private boolean areGrammarEquals2(ArrayList grammar1, ArrayList grammar2) {
+		boolean equals = true;
+		if (grammar1.size() != grammar2.size()) {
+			return false;
+		}
+		for (int i = 0; i < grammar1.size(); i++) {
+			for (int j = 0; j < ((ArrayList) grammar1.get(i)).size(); j++) {
+				if (!((ArrayList) ((ArrayList) grammar1.get(i)).get(j)).get(0).equals(((ArrayList) ((ArrayList) grammar2.get(i)).get(j)).get(0))) {
+					return false;
+				}
+				for (int k = 0; k < grammar1.size(); k++) {
+					if (!((ArrayList) ((ArrayList) ((ArrayList) grammar1.get(i)).get(j)).get(1)).get(k).equals(((ArrayList) ((ArrayList) ((ArrayList) grammar2.get(i)).get(j)).get(1)).get(k))) {
+						return false;
+					}
+				}
+			}
+		}
+		return equals;
+	}
+	
 	public void unitary() {
-
+//		ArrayList unitary = new ArrayList();
+		String[] variables = new String[gramatic.size()];
+		for (int i = 0; i < variables.length; i++) {
+			variables[i] = (String) ((ArrayList) gramatic.get(i)).get(0);
+		}
+		boolean[] visited = new boolean[variables.length];
+		for (int i = 0; i < gramatic.size(); i++) {
+			Queue queue = new LinkedList();
+			queue.add(gramatic.get(i));
+			while (!queue.isEmpty()) {
+				ArrayList grammar = (ArrayList) queue.poll();
+				for (int j = 0; j < ((ArrayList) grammar.get(1)).size(); j++) {
+					String productions = (String) ((ArrayList) grammar.get(1)).get(j);
+					if (productions.length() == 1 && productions.toUpperCase().equals(productions)) {
+						int pos = -1;
+						for (int k = 0; k < variables.length; k++) {
+							if (productions.equals(variables[k])) {
+								pos = k;
+								break;
+							}
+						}
+						if (visited[pos]) {
+							break;
+						} else {
+							visited[pos] = true;
+						}
+						queue.add(gramatic.get(pos));
+						ArrayList aux = ((ArrayList) ((ArrayList) gramatic.get(pos)).get(1));
+						for (int k = 0; k < aux.size(); k++) {
+							if (( (((String) aux.get(k)).length() != 1) || 
+									(((String) aux.get(k)).charAt(0) == ((String) aux.get(k)).toLowerCase().charAt(0))) && 
+									!(((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).contains(aux.get(k)))) {
+								((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).add(aux.get(k));
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		for (int i = 0; i < gramatic.size(); i++) {
+			for (int j = 0; j < ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).size(); j++) {
+				if (((String) ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j)).length() == 1 && ((String) ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j)).toUpperCase().equals(((String) ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j)))) {
+					((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).remove(j);
+					j = -1;
+				}
+			}
+		}
 	}
 
 	public void changeTerminals() {
@@ -250,21 +334,5 @@ public class ModelFNC {
 	public void binary() {
 
 	}
-	
-	//code for unitary
-//	for (int i = 0; i < gramatic.size(); i++) {
-//		for (int j = 0; j < ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).size(); j++) {
-//			String production = (String) ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j);
-//			for (int k = 0; k < production.length(); k++) {
-//				for (int l = 0; l < voidable.size(); l++) {
-//					if (production.charAt(k) == ((String) ((ArrayList) voidable.get(l)).get(0)).charAt(0)) {
-//						for (int n = 0; n < ((ArrayList) ((ArrayList) voidable.get(l)).get(1)).size(); n++) {
-//							((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).add(production.replaceAll("" + production.charAt(k), (String) ((ArrayList) ((ArrayList) voidable.get(l)).get(1)).get(n)));
-//						}
-//					}
-//				}
-//			}
-//		}
-//	}
 	
 }
