@@ -31,8 +31,8 @@ public class ModelFNC {
 		reachable();
 		voidable();
 		unitary();
-		changeTerminals();
 		binary();
+		changeTerminals();
 		return gramatic;
 	}
 
@@ -282,13 +282,45 @@ public class ModelFNC {
 			}
 		}
 	}
-
+	
+	public void binary() {
+		int num = 1;
+		ArrayList productionsCreated = new ArrayList();
+		for (int i = 0; i < gramatic.size(); i++) {
+			for (int j = 0; j < ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).size(); j++) {
+				String production = (String) ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j);
+				boolean a =  true;
+				for (int k = 0; k < production.length(); k++) {
+					if (Character.isDigit(production.charAt(k))) {
+						a = false;
+					}
+				}
+				if (production.length() > 2 && a) {
+					((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).remove(j);
+					j = -1;
+					String prodAux = "";
+					for (int k = 1; k < production.length(); k++) {
+						prodAux += production.charAt(k);
+					}
+					if (productionsCreated.contains(prodAux)) {
+						((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).add(production.charAt(0) + "T" + (productionsCreated.indexOf(prodAux) + 1));
+					} else {
+						productionsCreated.add(prodAux);
+						((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).add(production.charAt(0) + "T" + num);
+						ArrayList variableAux = new ArrayList();
+						variableAux.add("T" + num++);
+						ArrayList productionsAux = new ArrayList();
+						productionsAux.add(prodAux);
+						variableAux.add(productionsAux);
+						gramatic.add(variableAux);
+					}
+				}
+			}
+		}
+	}
+	
 	public void changeTerminals() {
 		
-	}
-
-	public void binary() {
-
 	}
 	
 }
