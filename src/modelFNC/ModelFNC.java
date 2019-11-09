@@ -127,8 +127,7 @@ public class ModelFNC {
 					String production = (String) ((ArrayList) ((ArrayList) iDK.get(i)).get(1)).get(j);
 					for (int k = 0; k < production.length(); k++) {
 						for (int l = 0; l < productionsTerminals.size(); l++) {
-							if (production.charAt(k) == ((String) ((ArrayList) productionsTerminals.get(l)).get(0))
-									.charAt(0)) {
+							if (production.charAt(k) == ((String) ((ArrayList) productionsTerminals.get(l)).get(0)).charAt(0)) {
 								terminal = true;
 							}
 						}
@@ -320,7 +319,27 @@ public class ModelFNC {
 	}
 	
 	public void changeTerminals() {
-		
+		ArrayList changed = new ArrayList();
+		for (int i = 0; i < gramatic.size(); i++) {
+			ArrayList aux = new ArrayList();
+			for (int j = 0; j < ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).size(); j++) {
+				String production = (String) ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j);
+				String prodAux = "";
+				if(production.length() > 1) {
+					for (int k = 0; k < production.length(); k++) {
+						if (!Character.isDigit(production.charAt(k)) && production.charAt(k) == production.toLowerCase().charAt(k)) {
+							prodAux += "T" + production.charAt(k);
+							changed.add(production.charAt(k));
+						} else {
+							prodAux += production.charAt(k);
+						}
+					}
+				}
+				aux.add(prodAux);
+			}
+			((ArrayList) gramatic.get(i)).remove(1);
+			((ArrayList) gramatic.get(i)).add(aux);
+		}
 	}
 	
 }
