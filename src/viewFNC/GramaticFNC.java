@@ -70,8 +70,7 @@ public class GramaticFNC extends JFrame implements ActionListener {
 			productions[i][1] = new JTextField();
 			panelProductions.add(productions[i][1]);
 		}
-//		JLabel labMessage = new JLabel("Ingrese aqui las producciones(para lambda ingrese _)");
-		JLabel labMessage = new JLabel("<html><big>Ingrese aqui las producciones</big><br>(para lambda ingrese _)</html>");
+		JLabel labMessage = new JLabel("<html><big>Ingrese aqui las producciones</big><br>use , en remplazo de | para separar las producciones<br>(para lambda ingrese _)</html>");
 		JButton buttonAccept = new JButton("ACEPTAR");
 		buttonAccept.setActionCommand("ACCEPT");
 		buttonAccept.addActionListener(this);
