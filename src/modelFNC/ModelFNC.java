@@ -1,7 +1,6 @@
 package modelFNC;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -15,7 +14,6 @@ public class ModelFNC {
 	 * attributes
 	 */
 	ArrayList gramatic;
-
 	/**
 	 * constructor
 	 * 
@@ -99,7 +97,6 @@ public class ModelFNC {
 	 * remove variables non terminals
 	 */
 	public void terminals() {
-		ArrayList productionsNonTerminals = new ArrayList();
 		ArrayList productionsTerminals = new ArrayList();
 		ArrayList iDK = new ArrayList();
 		// terminals 1
@@ -118,28 +115,75 @@ public class ModelFNC {
 			}
 		}
 		// terminals 2-n
+//		boolean equals = true;
+//		while (equals) {
+//			ArrayList aux = makeACopy(productionsTerminals);
+//			for (int i = 0; i < iDK.size(); i++) {
+//				boolean terminal = false;
+//				for (int j = 0; j < ((ArrayList) ((ArrayList) iDK.get(i)).get(1)).size(); j++) {
+//					String production = (String) ((ArrayList) ((ArrayList) iDK.get(i)).get(1)).get(j);
+//					for (int k = 0; k < production.length(); k++) {
+//						for (int l = 0; l < productionsTerminals.size(); l++) {
+//							if (production.charAt(k) == ((String) ((ArrayList) productionsTerminals.get(l)).get(0)).charAt(0)) {
+//								terminal = true;
+//							}
+//						}
+//					}
+//				}
+//				if (terminal) {
+//					productionsTerminals.add(iDK.remove(i));
+//					i = -1;
+//				}
+//			}
+//			equals = !areGrammarEquals(aux, productionsTerminals);
+//		}
+		
+		String[] variables = new String[productionsTerminals.size()];
+		for (int i = 0; i < variables.length; i++) {
+			variables[i] = (String) ((ArrayList) productionsTerminals.get(i)).get(0);
+		}
 		boolean equals = true;
 		while (equals) {
 			ArrayList aux = makeACopy(productionsTerminals);
 			for (int i = 0; i < iDK.size(); i++) {
-				boolean terminal = false;
+				int pos = -1;
 				for (int j = 0; j < ((ArrayList) ((ArrayList) iDK.get(i)).get(1)).size(); j++) {
 					String production = (String) ((ArrayList) ((ArrayList) iDK.get(i)).get(1)).get(j);
 					for (int k = 0; k < production.length(); k++) {
-						for (int l = 0; l < productionsTerminals.size(); l++) {
-							if (production.charAt(k) == ((String) ((ArrayList) productionsTerminals.get(l)).get(0)).charAt(0)) {
-								terminal = true;
+						if (Character.isUpperCase(production.charAt(k))) {
+							
+							for (int l = 0; l < variables.length; l++) {
+								if (variables[l].equals(production.charAt(k))) {
+									pos = l;
+									break;
+								} else {
+									pos = -1;
+									break;
+								}
+							}
+							if (pos == -1) {
+								break;
 							}
 						}
 					}
 				}
-				if (terminal) {
+				if (pos != -1) {
 					productionsTerminals.add(iDK.remove(i));
 					i = -1;
 				}
 			}
 			equals = !areGrammarEquals(aux, productionsTerminals);
 		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		// remove variables non terminals
 		for (int i = 0; i < gramatic.size(); i++) {
 			for (int j = 0; j < iDK.size(); j++) {
@@ -329,17 +373,30 @@ public class ModelFNC {
 					for (int k = 0; k < production.length(); k++) {
 						if (!Character.isDigit(production.charAt(k)) && production.charAt(k) == production.toLowerCase().charAt(k)) {
 							prodAux += "T" + production.charAt(k);
-							changed.add(production.charAt(k));
+							if (!changed.contains(production.charAt(k))) {
+								changed.add(production.charAt(k));
+							}
 						} else {
 							prodAux += production.charAt(k);
 						}
 					}
+				} else {
+					prodAux += production.charAt(0);
 				}
 				aux.add(prodAux);
 			}
 			((ArrayList) gramatic.get(i)).remove(1);
 			((ArrayList) gramatic.get(i)).add(aux);
 		}
+		for (int i = 0; i < changed.size(); i++) {
+			ArrayList var = new ArrayList();
+			var.add("T" + changed.get(i));
+			ArrayList productions = new ArrayList();
+			productions.add(changed.get(i));
+			var.add(productions);
+			gramatic.add(var);
+		}
+		System.out.println("ok");
 	}
 	
 }

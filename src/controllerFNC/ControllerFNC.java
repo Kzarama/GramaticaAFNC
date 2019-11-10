@@ -30,11 +30,5 @@ public class ControllerFNC {
 		model = new ModelFNC(data);
 		return model.fnc();
 	}
-	/**
-	 * button reboot
-	 */
-	public void reboot() {
-		view = new GramaticFNC();
-		view.reboot();
-	}
+	
 }

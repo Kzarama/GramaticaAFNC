@@ -26,7 +26,7 @@ public class GramaticOutFNC extends JDialog {
 	}
 	
 	public void showGrammar() {
-		String grammar = "";
+		String grammar = "GRAMATICA EN FNC\n";
 		for (int i = 0; i < gramatic.size(); i++) {
 			grammar += ((ArrayList) gramatic.get(i)).get(0);
 			grammar += "->";

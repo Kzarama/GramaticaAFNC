@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import controllerFNC.ControllerFNC;
-import jdk.nashorn.internal.scripts.JO;
 /**
  * program that generates a grammar equivalent to fnc equivalent to a grammar g
  * @author kz
@@ -102,12 +101,6 @@ public class GramaticFNC extends JFrame implements ActionListener {
 		gramaticOut = new GramaticOutFNC(this, grammar);
 		gramaticOut.setLocationRelativeTo(this);
 		gramaticOut.setVisible(true);
-	}
-	/**
-	 * reboot the program
-	 */
-	public void reboot() {
-		GramaticFNC g = new GramaticFNC();
 	}
 	/**
 	 * action of the buttons
