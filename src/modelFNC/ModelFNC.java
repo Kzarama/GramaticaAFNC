@@ -22,7 +22,10 @@ public class ModelFNC {
 	public ModelFNC(ArrayList data) {
 		gramatic = data;
 	}
-
+	/**
+	 * method that invoke the methods that do a grammar fnc
+	 * @return grammar in fnc
+	 */
 	public ArrayList fnc() {
 		useless();
 		terminals();
@@ -33,7 +36,6 @@ public class ModelFNC {
 		changeTerminals();
 		return gramatic;
 	}
-
 	/**
 	 * method that delete useless variables
 	 */
@@ -45,11 +47,9 @@ public class ModelFNC {
 			}
 		}
 	}
-
 	/**
 	 * make a copy of the a grammar
-	 * 
-	 * @return
+	 * @return copy of a grammar
 	 */
 	private ArrayList makeACopy(ArrayList grammarToCopy) {
 		ArrayList copy = new ArrayList();
@@ -67,11 +67,9 @@ public class ModelFNC {
 		}
 		return copy;
 	}
-
 	/**
 	 * say if two grammars are equals
-	 * 
-	 * @return
+	 * @return true if are equals
 	 */
 	private boolean areGrammarEquals(ArrayList grammar1, ArrayList grammar2) {
 		boolean equals = true;
@@ -92,7 +90,6 @@ public class ModelFNC {
 		}
 		return equals;
 	}
-
 	/**
 	 * remove variables non terminals
 	 */
@@ -115,29 +112,6 @@ public class ModelFNC {
 			}
 		}
 		// terminals 2-n
-//		boolean equals = true;
-//		while (equals) {
-//			ArrayList aux = makeACopy(productionsTerminals);
-//			for (int i = 0; i < iDK.size(); i++) {
-//				boolean terminal = false;
-//				for (int j = 0; j < ((ArrayList) ((ArrayList) iDK.get(i)).get(1)).size(); j++) {
-//					String production = (String) ((ArrayList) ((ArrayList) iDK.get(i)).get(1)).get(j);
-//					for (int k = 0; k < production.length(); k++) {
-//						for (int l = 0; l < productionsTerminals.size(); l++) {
-//							if (production.charAt(k) == ((String) ((ArrayList) productionsTerminals.get(l)).get(0)).charAt(0)) {
-//								terminal = true;
-//							}
-//						}
-//					}
-//				}
-//				if (terminal) {
-//					productionsTerminals.add(iDK.remove(i));
-//					i = -1;
-//				}
-//			}
-//			equals = !areGrammarEquals(aux, productionsTerminals);
-//		}
-		
 		String[] variables = new String[productionsTerminals.size()];
 		for (int i = 0; i < variables.length; i++) {
 			variables[i] = (String) ((ArrayList) productionsTerminals.get(i)).get(0);
@@ -151,7 +125,6 @@ public class ModelFNC {
 					String production = (String) ((ArrayList) ((ArrayList) iDK.get(i)).get(1)).get(j);
 					for (int k = 0; k < production.length(); k++) {
 						if (Character.isUpperCase(production.charAt(k))) {
-							
 							for (int l = 0; l < variables.length; l++) {
 								if (variables[l].equals(production.charAt(k))) {
 									pos = l;
@@ -174,16 +147,6 @@ public class ModelFNC {
 			}
 			equals = !areGrammarEquals(aux, productionsTerminals);
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		// remove variables non terminals
 		for (int i = 0; i < gramatic.size(); i++) {
 			for (int j = 0; j < iDK.size(); j++) {
@@ -207,7 +170,6 @@ public class ModelFNC {
 			}
 		}
 	}
-
 	/**
 	 * remove variables non reachable of the grammar
 	 */
@@ -241,7 +203,9 @@ public class ModelFNC {
 			}
 		}
 	}
-
+	/**
+	 * delete productions voidable of productions
+	 */
 	public void voidable() {
 		// voidable 1
 //		ArrayList voidable = new ArrayList();
@@ -275,7 +239,9 @@ public class ModelFNC {
 		/////////////////////////////////////
 		// change productions
 	}
-	
+	/**
+	 * do grammar unitary
+	 */
 	public void unitary() {
 		String[] variables = new String[gramatic.size()];
 		for (int i = 0; i < variables.length; i++) {
@@ -325,7 +291,9 @@ public class ModelFNC {
 			}
 		}
 	}
-	
+	/**
+	 * do productions binary
+	 */
 	public void binary() {
 		int num = 1;
 		ArrayList productionsCreated = new ArrayList();
@@ -361,7 +329,9 @@ public class ModelFNC {
 			}
 		}
 	}
-	
+	/**
+	 * change terminals for variables
+	 */
 	public void changeTerminals() {
 		ArrayList changed = new ArrayList();
 		for (int i = 0; i < gramatic.size(); i++) {

@@ -5,14 +5,26 @@ import java.util.ArrayList;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
-
+/**
+ * 
+ * @author zaram
+ * show the grammar in fnc
+ */
 public class GramaticOutFNC extends JDialog {
-	
+	/**
+	 * relations
+	 */
 	private GramaticFNC i;
-	
+	/*
+	 * attributes
+	 */
 	private ArrayList gramatic;
 	private JTextArea labelGramatic;
-	
+	/**
+	 * constructor of the class
+	 * @param i
+	 * @param gramatic
+	 */
 	public GramaticOutFNC(GramaticFNC i,ArrayList gramatic) {
 		super(i, true);
 		this.i = i;
@@ -24,7 +36,9 @@ public class GramaticOutFNC extends JDialog {
 		add(labelGramatic);
 		pack();
 	}
-	
+	/**
+	 * add the grammar in fnc at the interface
+	 */
 	public void showGrammar() {
 		String grammar = "GRAMATICA EN FNC\n";
 		for (int i = 0; i < gramatic.size(); i++) {

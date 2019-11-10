@@ -96,7 +96,10 @@ public class GramaticFNC extends JFrame implements ActionListener {
 		}
 		return data;
 	}
-	
+	/**
+	 * send the data at gramaticOut
+	 * @param grammar
+	 */
 	private void showData(ArrayList grammar) {
 		gramaticOut = new GramaticOutFNC(this, grammar);
 		gramaticOut.setLocationRelativeTo(this);
