@@ -339,7 +339,7 @@ public class ModelFNC {
 			for (int j = 0; j < ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).size(); j++) {
 				String production = (String) ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j);
 				String prodAux = "";
-				if(production.length() > 1) {
+				if(production.length() > 2) {
 					for (int k = 0; k < production.length(); k++) {
 						if (!Character.isDigit(production.charAt(k)) && production.charAt(k) == production.toLowerCase().charAt(k)) {
 							prodAux += "T" + production.charAt(k);
@@ -351,7 +351,7 @@ public class ModelFNC {
 						}
 					}
 				} else {
-					prodAux += production.charAt(0);
+					prodAux += production;
 				}
 				aux.add(prodAux);
 			}
