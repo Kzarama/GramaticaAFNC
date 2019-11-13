@@ -208,34 +208,34 @@ public class ModelFNC {
 	 */
 	public void voidable() {
 		// voidable 1
-//		ArrayList voidable = new ArrayList();
-//		for (int i = 0; i < gramatic.size(); i++) {
-//			for (int j = 0; j < ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).size(); j++) {
-//				String production = (String) ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j);
-//				if (production.equals("_")) {
-//					voidable.add(gramatic.get(i));
-//					((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).remove(j);
-//				}
-//			}
-//		}
-//		// voidable 2-n
-//		boolean equals = true;
-//		while (equals) {
-//			ArrayList aux = makeACopy(voidable);
-//			for (int i = 0; i < gramatic.size(); i++) {
-//				for (int j = 0; j < ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).size(); j++) {
-//					String production = (String) ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j);
-//					if (production.length() == 1) {
-//						for (int l = 0; l < voidable.size(); l++) {
-//							if ((!voidable.contains(gramatic.get(i))) && production.charAt(0) == ((String) ((ArrayList) voidable.get(l)).get(0)).charAt(0)) {
-//								voidable.add(gramatic.get(i));
-//							}
-//						}
-//					}
-//				}
-//			}
-//			equals = !areGrammarEquals(aux, voidable);
-//		}
+		ArrayList voidable = new ArrayList();
+		for (int i = 0; i < gramatic.size(); i++) {
+			for (int j = 0; j < ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).size(); j++) {
+				String production = (String) ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j);
+				if (production.equals("_")) {
+					voidable.add(gramatic.get(i));
+					((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).remove(j);
+				}
+			}
+		}
+		// voidable 2-n
+		boolean equals = true;
+		while (equals) {
+			ArrayList aux = makeACopy(voidable);
+			for (int i = 0; i < gramatic.size(); i++) {
+				for (int j = 0; j < ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).size(); j++) {
+					String production = (String) ((ArrayList) ((ArrayList) gramatic.get(i)).get(1)).get(j);
+					if (production.length() == 1) {
+						for (int l = 0; l < voidable.size(); l++) {
+							if ((!voidable.contains(gramatic.get(i))) && production.charAt(0) == ((String) ((ArrayList) voidable.get(l)).get(0)).charAt(0)) {
+								voidable.add(gramatic.get(i));
+							}
+						}
+					}
+				}
+			}
+			equals = !areGrammarEquals(aux, voidable);
+		}
 		/////////////////////////////////////
 		// change productions
 	}
@@ -366,7 +366,6 @@ public class ModelFNC {
 			var.add(productions);
 			gramatic.add(var);
 		}
-		System.out.println("ok");
 	}
 	
 }
